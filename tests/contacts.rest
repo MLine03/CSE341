@@ -1,0 +1,26 @@
+### Create Contact
+POST http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@test.com",
+  "favoriteColor": "blue",
+  "birthday": "1990-01-01"
+}
+
+### Update Contact
+PUT http://localhost:3000/contacts/PUT_ID_HERE
+Content-Type: application/json
+
+{
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "email": "jane@test.com",
+  "favoriteColor": "red",
+  "birthday": "1992-02-02"
+}
+
+### Delete Contact
+DELETE http://localhost:3000/contacts/PUT_ID_HERE

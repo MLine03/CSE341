@@ -1,36 +1,31 @@
 const express = require('express');
-const dotenv = require('dotenv');
-const mongodb = require('./data/database');
-
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger-output.json');
-
-dotenv.config();
-
 const app = express();
-const port = process.env.PORT || 3000;
 
-// Middleware
+require('dotenv').config();
+
+const contactsRoutes = require('./routes/contacts');
+const connectDB = require('./db/connect'); // ✅ FIXED
+
 app.use(express.json());
 
-// Swagger Route
+// Routes
+app.use('/contacts', contactsRoutes);
+
+// Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger'); // ✅ FIXED (single file)
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// Routes
-app.use('/contacts', require('./routes/contacts'));
+const PORT = process.env.PORT || 3000;
 
-// Home Route
-app.get('/', (req, res) => {
-  res.send('Contacts API is running');
-});
-
-// Database Connection
-mongodb.initDb((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    app.listen(port, () => {
-      console.log(`Connected to database and listening on port ${port}`);
+// Start server AFTER DB connects
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
-  }
-});
+  })
+  .catch((err) => {
+    console.error('Database connection failed:', err);
+  });
