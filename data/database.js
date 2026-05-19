@@ -9,6 +9,7 @@ let database;
 
 const initDb = (callback) => {
   if (database) {
+    console.log('Database is already initialized!');
     return callback(null, database);
   }
 
@@ -26,7 +27,7 @@ const getDb = () => {
   if (!database) {
     throw Error('Database not initialized');
   }
-  return database;
+  return database.db();
 };
 
 module.exports = {
