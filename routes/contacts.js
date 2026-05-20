@@ -8,8 +8,7 @@ const {
   deleteContact
 } = require('../controllers/contactsController');
 
-
-// ✅ GET ALL CONTACTS
+// GET ALL
 router.get('/', async (req, res) => {
   try {
     const contacts = await Contact.find();
@@ -19,22 +18,16 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-// ✅ GET CONTACT BY ID
+// GET BY ID
 router.get('/:id', async (req, res) => {
   try {
     const contact = await Contact.findById(req.params.id);
-
-    if (!contact) {
-      return res.status(404).json({ message: 'Contact not found' });
-    }
-
+    if (!contact) return res.status(404).json({ message: 'Contact not found' });
     res.json(contact);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 // CREATE
 router.post('/', createContact);
