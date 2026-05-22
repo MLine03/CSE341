@@ -1,36 +1,39 @@
-const express = require('express');
-const app = express();
-
 require('dotenv').config();
 
-const connectDB = require('./db/connect');
+const express = require('express');
+const cors = require('cors');
+
+const { connectDB } = require('./db/connect');
+
 const contactsRoutes = require('./routes/contacts');
+const usersRoutes = require('./routes/users');
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger');
+const app = express();
 
+app.use(cors());
 app.use(express.json());
-
-// ✅ Root route (prevents "Cannot GET /")
-app.get('/', (req, res) => {
-  res.send('CSE341 Contacts API is running');
-});
 
 // Routes
 app.use('/contacts', contactsRoutes);
+app.use('/users', usersRoutes);
 
-// Swagger docs
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// Test route
+app.get('/', (req, res) => {
+  res.send('API Running');
+});
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
-// Start AFTER DB connects
-connectDB()
-  .then(() => {
+const start = async () => {
+  try {
+    await connectDB();
+
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
-  })
-  .catch((err) => {
-    console.error('Database connection failed:', err);
-  });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+start();

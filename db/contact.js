@@ -1,11 +1,21 @@
-const mongoose = require('mongoose');
+const router = require('express').Router();
 
-const contactSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true },
-  favoriteColor: { type: String, required: true },
-  birthday: { type: Date, required: true }
-});
+const {
+  getAllContacts,
+  getContact,
+  createContact,
+  updateContact,
+  deleteContact
+} = require('../controllers/contacts');
 
-module.exports = mongoose.model('Contact', contactSchema);
+const validateContact = require('../middleware/validateContact');
+
+router.get('/', getAllContacts);
+router.get('/:id', getContact);
+
+router.post('/', validateContact, createContact);
+router.put('/:id', validateContact, updateContact);
+
+router.delete('/:id', deleteContact);
+
+module.exports = router;

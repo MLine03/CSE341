@@ -1,22 +1,22 @@
 const { ObjectId } = require('mongodb');
 const { getDB } = require('../db/connect');
 
-const getAllContacts = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const db = getDB();
-    const data = await db.collection('contacts').find().toArray();
+    const data = await db.collection('users').find().toArray();
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-const getContact = async (req, res) => {
+const getUser = async (req, res) => {
   try {
     const db = getDB();
     const id = req.params.id;
 
-    const data = await db.collection('contacts').findOne({
+    const data = await db.collection('users').findOne({
       _id: new ObjectId(id)
     });
 
@@ -28,22 +28,22 @@ const getContact = async (req, res) => {
   }
 };
 
-const createContact = async (req, res) => {
+const createUser = async (req, res) => {
   try {
     const db = getDB();
-    const result = await db.collection('contacts').insertOne(req.body);
+    const result = await db.collection('users').insertOne(req.body);
     res.status(201).json(result);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-const updateContact = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     const db = getDB();
     const id = req.params.id;
 
-    const result = await db.collection('contacts').replaceOne(
+    const result = await db.collection('users').replaceOne(
       { _id: new ObjectId(id) },
       req.body
     );
@@ -54,12 +54,12 @@ const updateContact = async (req, res) => {
   }
 };
 
-const deleteContact = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const db = getDB();
     const id = req.params.id;
 
-    const result = await db.collection('contacts').deleteOne({
+    const result = await db.collection('users').deleteOne({
       _id: new ObjectId(id)
     });
 
@@ -70,9 +70,9 @@ const deleteContact = async (req, res) => {
 };
 
 module.exports = {
-  getAllContacts,
-  getContact,
-  createContact,
-  updateContact,
-  deleteContact
+  getAllUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser
 };

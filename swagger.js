@@ -1,79 +1,64 @@
 module.exports = {
-  openapi: "3.0.0",
+  openapi: '3.0.0',
   info: {
-    title: "Contacts API",
-    version: "1.0.0",
-    description: "CSE341 Contacts API"
+    title: 'CSE341 Contacts API',
+    version: '1.0.0',
+    description: 'CRUD API for contacts'
   },
   servers: [
     {
-      url: "https://cse341-api-514n.onrender.com"
+      url: 'http://localhost:3000'
     }
   ],
   paths: {
-    "/contacts": {
+    '/contacts': {
       get: {
-        summary: "Get all contacts",
+        summary: 'Get all contacts',
         responses: {
-          "200": {
-            description: "Success"
+          200: {
+            description: 'Success'
           }
         }
       },
       post: {
-        summary: "Create a contact",
+        summary: 'Create contact',
         responses: {
-          "201": {
-            description: "Created"
+          201: {
+            description: 'Created'
           }
         }
       }
     },
-
-    "/contacts/{id}": {
+    '/contacts/{id}': {
       get: {
-        summary: "Get contact by ID",
+        summary: 'Get single contact',
         parameters: [
           {
-            name: "id",
-            in: "path",
-            required: true,
-            schema: { type: "string" }
+            name: 'id',
+            in: 'path',
+            required: true
           }
         ],
         responses: {
-          "200": { description: "Success" },
-          "404": { description: "Not found" }
+          200: {
+            description: 'Success'
+          }
         }
       },
-
       put: {
-        summary: "Update contact",
-        parameters: [
-          {
-            name: "id",
-            in: "path",
-            required: true,
-            schema: { type: "string" }
-          }
-        ],
+        summary: 'Update contact',
         responses: {
-          "204": { description: "Updated" }
+          200: {
+            description: 'Updated'
+          }
         }
       },
-
       delete: {
-        summary: "Delete contact",
-        parameters: [
-          {
-            name: "id",
-            in: "path",
-            required: true,
-            schema: { type: "string" }
-          }
-        ],
+        summary: 'Delete contact',
         responses: {
-          "204": { description: "Deleted" }
+          200: {
+            description: 'Deleted'
+          }
         }
       }
     }
