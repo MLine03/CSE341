@@ -8,10 +8,18 @@ const { connectDB } = require('./db/connect');
 const contactsRoutes = require('./routes/contacts');
 const usersRoutes = require('./routes/users');
 
+// ✅ Swagger imports (THIS FIXES /api-docs)
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
+
+// ✅ Swagger route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
 app.use('/contacts', contactsRoutes);
@@ -32,7 +40,7 @@ const start = async () => {
       console.log(`Server running on port ${PORT}`);
     });
   } catch (err) {
-    console.error(err);
+    console.error('Database connection failed:', err);
   }
 };
 

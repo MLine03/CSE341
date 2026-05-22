@@ -5,68 +5,41 @@
     "description": "Contacts API Documentation",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
   "paths": {
-    "/contacts/": {
+    "/contacts": {
       "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
+          "200": { "description": "OK" }
         }
       },
       "post": {
-        "description": "",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
+              "required": ["firstName", "lastName", "email", "favoriteColor", "birthday"],
               "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "favoriteColor": {
-                  "example": "any"
-                },
-                "birthday": {
-                  "example": "any"
-                }
+                "firstName": { "type": "string" },
+                "lastName": { "type": "string" },
+                "email": { "type": "string" },
+                "favoriteColor": { "type": "string" },
+                "birthday": { "type": "string" }
               }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "201": { "description": "Created" }
         }
       }
     },
     "/contacts/{id}": {
       "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "id",
@@ -76,13 +49,10 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
+          "200": { "description": "OK" }
         }
       },
       "put": {
-        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -93,39 +63,24 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "favoriteColor": {
-                  "example": "any"
-                },
-                "birthday": {
-                  "example": "any"
-                }
+                "firstName": { "type": "string" },
+                "lastName": { "type": "string" },
+                "email": { "type": "string" },
+                "favoriteColor": { "type": "string" },
+                "birthday": { "type": "string" }
               }
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" }
         }
       },
       "delete": {
-        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -135,12 +90,7 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" }
         }
       }
     }
