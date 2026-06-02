@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Contacts API",
-    "description": "Contacts API Documentation",
+    "description": "Contacts and Users API Documentation",
     "version": "1.0.0"
   },
   "basePath": "/",
@@ -11,33 +11,20 @@
       "get": {
         "produces": ["application/json"],
         "responses": {
-          "200": { "description": "OK" }
+          "200": {
+            "description": "OK"
+          }
         }
       },
       "post": {
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": ["firstName", "lastName", "email", "favoriteColor", "birthday"],
-              "properties": {
-                "firstName": { "type": "string" },
-                "lastName": { "type": "string" },
-                "email": { "type": "string" },
-                "favoriteColor": { "type": "string" },
-                "birthday": { "type": "string" }
-              }
-            }
-          }
-        ],
         "responses": {
-          "201": { "description": "Created" }
+          "201": {
+            "description": "Created"
+          }
         }
       }
     },
+
     "/contacts/{id}": {
       "get": {
         "parameters": [
@@ -49,17 +36,81 @@
           }
         ],
         "responses": {
-          "200": { "description": "OK" }
+          "200": {
+            "description": "OK"
+          }
         }
       },
       "put": {
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+
+    "/users": {
+      "get": {
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Get all users"
+          }
+        }
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "description": "Create user"
+          }
+        }
+      }
+    },
+
+    "/users/{id}": {
+      "get": {
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          },
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get user by ID"
+          }
+        }
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "User updated"
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "User deleted"
+          }
+        }
+      }
+    },
+
+    "/users/register": {
+      "post": {
+        "summary": "Register a new user",
+        "parameters": [
           {
             "name": "body",
             "in": "body",
@@ -67,30 +118,58 @@
             "schema": {
               "type": "object",
               "properties": {
-                "firstName": { "type": "string" },
-                "lastName": { "type": "string" },
-                "email": { "type": "string" },
-                "favoriteColor": { "type": "string" },
-                "birthday": { "type": "string" }
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
               }
             }
           }
         ],
         "responses": {
-          "204": { "description": "No Content" }
+          "201": {
+            "description": "User registered"
+          }
         }
-      },
-      "delete": {
+      }
+    },
+
+    "/users/login": {
+      "post": {
+        "summary": "Login user",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
+            "name": "body",
+            "in": "body",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
           }
         ],
         "responses": {
-          "204": { "description": "No Content" }
+          "200": {
+            "description": "Login successful"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
         }
       }
     }
