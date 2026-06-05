@@ -1,47 +1,51 @@
-const Contact = require('../models/contact');
+const { ObjectId } = require('mongodb');
+const { getDB } = require('../db/connect');
 
 const getAllContacts = async (req, res) => {
   try {
-    const contacts = await Contact.find();
-    res.status(200).json(contacts);
+    const db = getDB();
+    const data = await db.collection('contacts').find().toArray();
+
+    res.status(200).json(data);
   } catch (err) {
-    console.error('GET ALL ERROR:', err);
     res.status(500).json({ message: err.message });
   }
 };
 
 const getContact = async (req, res) => {
   try {
-    const contact = await Contact.findById(req.params.id);
+    const db = getDB();
 
-    if (!contact) {
-      return res.status(404).json({ message: 'Contact not found' });
+    const data = await db.collection('contacts').findOne({
+      _id: new ObjectId(req.params.id)
+    });
+
+    if (!data) {
+      return res.status(404).json({
+        message: 'Contact not found'
+      });
     }
 
-    res.status(200).json(contact);
+    res.status(200).json(data);
   } catch (err) {
-    console.error('GET CONTACT ERROR:', err);
     res.status(500).json({ message: err.message });
   }
 };
 
 const createContact = async (req, res) => {
-  console.log('POST /contacts reached');
-  console.log('Request Body:', req.body);
-
   try {
-    const contact = await Contact.create(req.body);
+    const db = getDB();
 
-    console.log('Contact created successfully:', contact);
+    const result = await db
+      .collection('contacts')
+      .insertOne(req.body);
 
     res.status(201).json({
       message: 'Contact created successfully',
-      id: contact._id
+      id: result.insertedId
     });
   } catch (err) {
-    console.error('CREATE CONTACT ERROR:', err);
-    console.error('STACK TRACE:', err.stack);
-
+    console.error(err);
     res.status(500).json({
       message: err.message
     });
@@ -50,40 +54,38 @@ const createContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
   try {
-    const contact = await Contact.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    );
+    const db = getDB();
 
-    if (!contact) {
-      return res.status(404).json({ message: 'Contact not found' });
-    }
+    const result = await db
+      .collection('contacts')
+      .replaceOne(
+        { _id: new ObjectId(req.params.id) },
+        req.body
+      );
 
-    res.status(200).json({
-      message: 'Contact updated successfully',
-      contact
-    });
+    res.status(200).json(result);
   } catch (err) {
-    console.error('UPDATE CONTACT ERROR:', err);
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: err.message
+    });
   }
 };
 
 const deleteContact = async (req, res) => {
   try {
-    const contact = await Contact.findByIdAndDelete(req.params.id);
+    const db = getDB();
 
-    if (!contact) {
-      return res.status(404).json({ message: 'Contact not found' });
-    }
+    const result = await db
+      .collection('contacts')
+      .deleteOne({
+        _id: new ObjectId(req.params.id)
+      });
 
-    res.status(200).json({
-      message: 'Contact deleted successfully'
-    });
+    res.status(200).json(result);
   } catch (err) {
-    console.error('DELETE CONTACT ERROR:', err);
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: err.message
+    });
   }
 };
 
