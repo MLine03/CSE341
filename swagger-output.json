@@ -11,6 +11,72 @@
     }
   ],
   "paths": {
+
+    "/contacts": {
+      "get": {
+        "summary": "Get all contacts",
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      },
+
+      "post": {
+        "summary": "Create contact",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": { "type": "string" },
+                  "lastName": { "type": "string" },
+                  "email": { "type": "string" },
+                  "favoriteColor": { "type": "string" },
+                  "birthday": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Created" }
+        }
+      }
+    },
+
+    "/users": {
+      "get": {
+        "summary": "Get all users",
+        "responses": {
+          "200": { "description": "Success" }
+        }
+      },
+
+      "post": {
+        "summary": "Create user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "role"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "role": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Created" }
+        }
+      }
+    },
+
     "/users/{id}": {
       "get": {
         "summary": "Get user by id",
@@ -19,15 +85,11 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success"
-          }
+          "200": { "description": "Success" }
         }
       },
 
@@ -38,9 +100,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "requestBody": {
@@ -51,30 +111,16 @@
                 "type": "object",
                 "required": ["name", "email", "role"],
                 "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "John Smith"
-                  },
-                  "email": {
-                    "type": "string",
-                    "example": "john@email.com"
-                  },
-                  "role": {
-                    "type": "string",
-                    "example": "admin"
-                  }
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "role": { "type": "string" }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "Updated"
-          },
-          "400": {
-            "description": "Validation error"
-          }
+          "200": { "description": "Updated" }
         }
       },
 
@@ -85,15 +131,11 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Deleted"
-          }
+          "200": { "description": "Deleted" }
         }
       }
     }
