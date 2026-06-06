@@ -30,12 +30,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Test route
+// Home Route
 app.get('/', (req, res) => {
   res.send('API Running');
 });
 
-// GitHub OAuth Routes
+// GitHub OAuth Login
 app.get(
   '/auth/github',
   passport.authenticate('github', {
@@ -43,6 +43,7 @@ app.get(
   })
 );
 
+// GitHub OAuth Callback
 app.get(
   '/auth/github/callback',
   passport.authenticate('github', {
@@ -53,17 +54,36 @@ app.get(
   }
 );
 
+// Logout
 app.get('/logout', (req, res) => {
   req.logout(function (err) {
     if (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({
+        error: err.message
+      });
     }
+
     res.redirect('/');
   });
 });
 
+// OAuth Test Route
+app.get('/profile', (req, res) => {
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
+    return res.status(401).json({
+      message: 'Not logged in'
+    });
+  }
+
+  res.status(200).json(req.user);
+});
+
 // Swagger Documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
 
 // API Routes
 app.use('/contacts', contactsRoutes);
